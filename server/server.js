@@ -6,9 +6,11 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import http from "http";
 import { Server } from "socket.io";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { createClient } from "redis";
 
 import connectDB from "./config/db.js";
-import { connectRedis } from "./config/redis.js";
+import { connectRedis, redisClient } from "./config/redis.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -31,6 +33,31 @@ app.use(limiter);
 // ===== Health Route =====
 app.get("/api/health", (req, res) => {
   res.json({ success: true, message: "Server running" });
+});
+
+// ===== Socket.IO Setup =====
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+// ===== Redis Adapter Setup =====
+const pubClient = createClient({ url: process.env.REDIS_URL });
+const subClient = pubClient.duplicate();
+
+await pubClient.connect();
+await subClient.connect();
+
+io.adapter(createAdapter(pubClient, subClient));
+
+// ===== Basic Socket Test =====
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
 });
 
 // ===== Error Middleware =====
