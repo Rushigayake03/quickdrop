@@ -12,6 +12,7 @@ import { createClient } from "redis";
 import connectDB from "./config/db.js";
 import { connectRedis, redisClient } from "./config/redis.js";
 import errorHandler from "./middleware/errorMiddleware.js";
+import roomRoutes from "./routes/roomRoutes.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
+app.use("/api/rooms", roomRoutes);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -55,7 +57,42 @@ io.adapter(createAdapter(pubClient, subClient));
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
-  socket.on("disconnect", () => {
+  socket.on("join-room", async (roomId) => {
+    try {
+      const exists = await redisClient.exists(`room:${roomId}`);
+
+      if (!exists) {
+        socket.emit("error", "Room does not exist");
+        return;
+      }
+
+      socket.join(roomId);
+
+      await redisClient.sAdd(`room:${roomId}:users`, socket.id);
+
+      const userCount = await redisClient.sCard(
+        `room:${roomId}:users`
+      );
+
+      io.to(roomId).emit("room-users", userCount);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  socket.on("leave-room", async (roomId) => {
+    await redisClient.sRem(`room:${roomId}:users`, socket.id);
+
+    socket.leave(roomId);
+
+    const userCount = await redisClient.sCard(
+      `room:${roomId}:users`
+    );
+
+    io.to(roomId).emit("room-users", userCount);
+  });
+
+  socket.on("disconnect", async () => {
     console.log("User disconnected:", socket.id);
   });
 });
