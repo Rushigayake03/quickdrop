@@ -13,6 +13,7 @@ import connectDB from "./config/db.js";
 import { connectRedis, redisClient } from "./config/redis.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 import roomRoutes from "./routes/roomRoutes.js";
+import fileRoutes from "./routes/file.js";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use("/api/rooms", roomRoutes);
+app.use("/api/files", fileRoutes);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
