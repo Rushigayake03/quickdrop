@@ -14,6 +14,7 @@ import { connectRedis, redisClient } from "./config/redis.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 import roomRoutes from "./routes/roomRoutes.js";
 import fileRoutes from "./routes/file.js";
+import { initSocket } from "./sockets/socket.js";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ await pubClient.connect();
 await subClient.connect();
 
 io.adapter(createAdapter(pubClient, subClient));
+initSocket(io);
 
 // ===== Basic Socket Test =====
 io.on("connection", (socket) => {

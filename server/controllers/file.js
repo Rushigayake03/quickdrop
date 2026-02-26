@@ -2,6 +2,7 @@ import {
   uploadFileService,
   getRoomFilesService,
 } from "../services/file.js";
+import { getIO } from "../sockets/socket.js";
 
 export const uploadFile = async (req, res, next) => {
   try {
@@ -15,6 +16,11 @@ export const uploadFile = async (req, res, next) => {
       roomId,
       req.file
     );
+
+    //  Emit real-time event
+    const io = getIO();
+    console.log("Broadcasting to room:", roomId);
+    io.to(roomId).emit("new-file", file);
 
     res.status(201).json({
       success: true,
