@@ -3,7 +3,7 @@ import { redisClient } from "../config/redis.js";
 
 import path from "path";
 import fs from "fs";
-import { validateRoomExists } from "./room.js";
+import { validateRoomExists } from "./roomService.js";
 import { ROOM_STORAGE_LIMIT } from "../constants/limits.js";
 
 export const getFileByIdService = async (fileId) => {

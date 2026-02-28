@@ -1,5 +1,5 @@
 import { getRoomFileHistory } from "../services/file.js";
-import { validateRoomExists } from "../services/room.js";
+import { validateRoomExists } from "../services/roomService.js";
 import { redisClient } from "../config/redis.js";
 
 let ioInstance = null;
