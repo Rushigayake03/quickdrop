@@ -1,48 +1,47 @@
 import {
   uploadFileService,
-  getRoomFilesService,
+  getRoomFileHistory,
+  getFileByIdService
 } from "../services/file.js";
+
 import { getIO } from "../sockets/socket.js";
-import { getFileByIdService } from "../services/file.js";
 
 export const uploadFile = async (req, res, next) => {
   try {
     const { roomId } = req.body;
 
+    if (!roomId) {
+      throw new Error("Room ID is required");
+    }
+
     if (!req.file) {
       throw new Error("No file uploaded");
     }
 
-    const file = await uploadFileService(
-      roomId,
-      req.file
-    );
+    const file = await uploadFileService(roomId, req.file);
 
-    //  Emit real-time event
     const io = getIO();
-    console.log("Broadcasting to room:", roomId);
+
     io.to(roomId).emit("new-file", file);
 
     res.status(201).json({
       success: true,
-      file,
+      file
     });
+
   } catch (error) {
     next(error);
   }
 };
 
+
 export const downloadFile = async (req, res, next) => {
   try {
     const { fileId } = req.params;
 
-    const { file, filePath } =
-      await getFileByIdService(fileId);
+    const { file, filePath } = await getFileByIdService(fileId);
 
-    res.setHeader(
-      "Content-Type",
-      file.mimeType
-    );
+    res.setHeader("Content-Type", file.mimeType);
 
     res.setHeader(
       "Content-Disposition",
@@ -50,20 +49,22 @@ export const downloadFile = async (req, res, next) => {
     );
 
     res.sendFile(filePath);
+
   } catch (error) {
     next(error);
   }
 };
 
+
 export const getRoomFiles = async (req, res, next) => {
   try {
     const { roomId } = req.params;
 
-    const files = await getRoomFilesService(roomId);
+    const files = await getRoomFileHistory(roomId);
 
     res.json({
       success: true,
-      files,
+      files
     });
   } catch (error) {
     next(error);
