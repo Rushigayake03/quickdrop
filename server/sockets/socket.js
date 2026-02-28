@@ -17,9 +17,25 @@ export const getIO = () => {
 
 const setupSocketHandlers = (socket) => {
 
-
-  socket.on("join-room", async ({ roomId }) => {
+  socket.on("join-room", async (payload) => {
     try {
+      if (!payload || typeof payload !== "object") {
+        socket.emit("error", {
+          success: false,
+          message: "Invalid join payload"
+        });
+        return;
+      }
+
+      const { roomId } = payload;
+
+      if (!roomId) {
+        socket.emit("error", {
+          success: false,
+          message: "Room ID is required"
+        });
+        return;
+      }
 
       await validateRoomExists(roomId);
 
@@ -44,8 +60,16 @@ const setupSocketHandlers = (socket) => {
   });
 
 
-  socket.on("leave-room", async ({ roomId }) => {
+  socket.on("leave-room", async (payload) => {
     try {
+      if (!payload || typeof payload !== "object") {
+        return;
+      }
+
+      const { roomId } = payload;
+
+      if (!roomId) return;
+
       await redisClient.sRem(`room:${roomId}:users`, socket.id);
 
       socket.leave(roomId);
@@ -68,5 +92,4 @@ const setupSocketHandlers = (socket) => {
   });
 
 };
-
 export default setupSocketHandlers;
