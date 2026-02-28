@@ -1,6 +1,28 @@
 import File from "../models/file.js";
 import { redisClient } from "../config/redis.js";
 
+import path from "path";
+import fs from "fs";
+
+export const getFileByIdService = async (fileId) => {
+  const file = await File.findById(fileId);
+
+  if (!file) {
+    throw new Error("File not found");
+  }
+
+  const filePath = path.resolve(
+    "uploads",
+    file.filename
+  );
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error("File missing on server");
+  }
+
+  return { file, filePath };
+};
+
 export const uploadFileService = async (
   roomId,
   fileData

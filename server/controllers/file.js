@@ -3,6 +3,7 @@ import {
   getRoomFilesService,
 } from "../services/file.js";
 import { getIO } from "../sockets/socket.js";
+import { getFileByIdService } from "../services/file.js";
 
 export const uploadFile = async (req, res, next) => {
   try {
@@ -26,6 +27,29 @@ export const uploadFile = async (req, res, next) => {
       success: true,
       file,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const downloadFile = async (req, res, next) => {
+  try {
+    const { fileId } = req.params;
+
+    const { file, filePath } =
+      await getFileByIdService(fileId);
+
+    res.setHeader(
+      "Content-Type",
+      file.mimeType
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${file.originalName}"`
+    );
+
+    res.sendFile(filePath);
   } catch (error) {
     next(error);
   }
