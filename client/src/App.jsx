@@ -1,33 +1,19 @@
-import { useEffect } from "react";
-import { io } from "socket.io-client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Room from "./pages/Room";
+import NotFound from "./pages/NotFound";
+import { ToastProvider } from "./components/ui/Toast/ToastProvider";
 
 export default function App() {
-  useEffect(() => {
-    const socket = io("http://localhost:5000");
-
-    socket.on("connect", () => {
-      console.log("Connected:", socket.id);
-
-      const roomId = prompt("Enter Room ID");
-      socket.emit("join-room", roomId);
-    });
-
-    socket.on("room-users", (count) => {
-      console.log("User count:", count);
-    });
-
-    socket.on("new-file", (file) => {
-      console.log("🔥 New file received:", file);
-    });
-
-    return () => socket.disconnect();
-  }, []);
-
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-xl font-bold">
-        Socket Test Running...
-      </h1>
-    </div>
+    <ToastProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/room/:roomId" element={<Room />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </ToastProvider>
   );
 }
