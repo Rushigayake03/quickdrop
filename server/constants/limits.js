@@ -1,0 +1,1 @@
+export const ROOM_STORAGE_LIMIT = 100 * 1024 * 1024; // 100MB

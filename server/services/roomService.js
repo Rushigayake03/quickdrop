@@ -8,14 +8,32 @@ export const createRoomService = async () => {
   // Save to MongoDB
   await Room.create({ roomId });
 
-  // Save to Redis Hash
-  await redisClient.hSet(`room:${roomId}`, {
+  const roomKey = `room:${roomId}`;
+  const usersKey = `room:${roomId}:users`;
+  const sizeKey = `room:${roomId}:size`;
+
+  const TTL = 60 * 60 * 24; // 24 hours
+
+  const pipeline = redisClient.multi();
+
+  // Store room metadata
+  pipeline.hSet(roomKey, {
     roomId,
     createdAt: Date.now(),
   });
 
-  // Set TTL 24 hours
-  await redisClient.expire(`room:${roomId}`, 60 * 60 * 24);
+  pipeline.expire(roomKey, TTL);
+
+  // Initialize total room size to 0
+  pipeline.set(sizeKey, 0);
+  pipeline.expire(sizeKey, TTL);
+
+  // Ensure users set exists and has same TTL
+  pipeline.sAdd(usersKey, "placeholder");
+  pipeline.sRem(usersKey, "placeholder");
+  pipeline.expire(usersKey, TTL);
+
+  await pipeline.exec();
 
   return roomId;
 };
@@ -37,4 +55,18 @@ export const removeUserFromRoomService = async (roomId, socketId) => {
 
   const userCount = await redisClient.sCard(`room:${roomId}:users`);
   return userCount;
+};
+
+export const validateRoomExists = async (roomId) => {
+  if (!roomId) {
+    throw new Error("Room ID is required");
+  }
+
+  const exists = await redisClient.exists(`room:${roomId}`);
+
+  if (!exists) {
+    throw new Error("Room expired or does not exist");
+  }
+
+  return true;
 };
