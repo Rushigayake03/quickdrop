@@ -7,7 +7,10 @@ export const useRoomStore = create((set) => ({
   storageMB: 0,
 
   setRoomId: (roomId) => set({ roomId }),
-  setFiles: (files) => set({ files }),
+  setFiles: (files) =>
+    set((state) => ({
+      files: typeof files === "function" ? files(state.files) : files,
+    })),
   addFile: (file) =>
     set((state) => ({ files: [file, ...state.files] })),
   setUserCount: (count) => set({ userCount: count }),

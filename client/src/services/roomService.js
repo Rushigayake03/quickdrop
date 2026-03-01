@@ -9,3 +9,8 @@ export const getRoomSize = async (roomId) => {
   const { data } = await api.get(`/rooms/${roomId}/size`);
   return data;
 };
+
+export const getRoomTTL = async (roomId) => {
+  const { data } = await api.get(`/rooms/${roomId}/ttl`);
+  return data;
+};
