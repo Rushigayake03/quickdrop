@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 import { useEffect, useRef } from "react";
 import { useRoomStore } from "../store/roomStore";
+import { getRoomSize } from "../services/roomService";
 
 export const useSocket = (roomId) => {
   const socketRef = useRef(null);
@@ -17,12 +18,16 @@ export const useSocket = (roomId) => {
       setUserCount(count);
     });
 
-    socketRef.current.on("room-history", (history) => {
+    socketRef.current.on("room-history", async (history) => {
       setFiles(history);
+      const sizeRes = await getRoomSize(roomId);
+      setStorage(sizeRes.sizeMB);
     });
 
-    socketRef.current.on("new-file", (file) => {
+    socketRef.current.on("new-file", async (file) => {
       addFile(file);
+      const sizeRes = await getRoomSize(roomId);
+      setStorage(sizeRes.sizeMB);
     });
 
     socketRef.current.on("error", (err) => {
