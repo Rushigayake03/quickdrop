@@ -1,5 +1,6 @@
 import { createRoomService } from "../services/roomService.js";
 import { getRoomSizeService } from "../services/roomService.js";
+import { getRoomTTLService } from "../services/roomService.js";
 
 export const createRoom = async (req, res, next) => {
   try {
@@ -23,6 +24,21 @@ export const getRoomSize = async (req, res, next) => {
     res.json({
       success: true,
       sizeMB,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getRoomTTL = async (req, res, next) => {
+  try {
+    const { roomId } = req.params;
+
+    const ttl = await getRoomTTLService(roomId);
+
+    res.json({
+      success: true,
+      ttl,
     });
   } catch (error) {
     next(error);

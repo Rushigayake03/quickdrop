@@ -81,3 +81,10 @@ export const getRoomSizeService = async (roomId) => {
 
   return Number(sizeInMB.toFixed(2));
 };
+
+export const getRoomTTLService = async (roomId) => {
+  await validateRoomExists(roomId);
+
+  const ttl = await redisClient.ttl(`room:${roomId}`);
+  return ttl;
+};
