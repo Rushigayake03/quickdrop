@@ -1,7 +1,8 @@
 import {
   uploadFileService,
   getRoomFileHistory,
-  getFileByIdService
+  getFileByIdService,
+  deleteFileService
 } from "../services/file.js";
 
 import { getIO } from "../sockets/socket.js";
@@ -65,6 +66,24 @@ export const getRoomFiles = async (req, res, next) => {
     res.json({
       success: true,
       files
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteFile = async (req, res, next) => {
+  try {
+    const { fileId } = req.params;
+
+    const result = await deleteFileService(fileId);
+
+    const io = getIO();
+    io.to(result.roomId).emit("file-deleted", fileId);
+
+    res.json({
+      success: true,
+      message: "File deleted",
     });
   } catch (error) {
     next(error);

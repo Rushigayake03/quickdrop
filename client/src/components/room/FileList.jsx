@@ -1,14 +1,20 @@
 import { useRoomStore } from "../../store/roomStore";
-import { downloadFile } from "../../services/fileService";
+import { deleteFileById, downloadFile } from "../../services/fileService";
 import formatBytes from "../../utils/formatBytes";
 import { FaFilePdf, FaFileImage, FaFileAlt } from "react-icons/fa";
+import { useToast } from "../ui/Toast/ToastProvider";
 
 export default function FileList() {
   const { files } = useRoomStore();
+  const { addToast } = useToast();
   const getFileIcon = (mime) => {
     if (mime.includes("pdf")) return <FaFilePdf className="text-red-500" />;
     if (mime.includes("image")) return <FaFileImage className="text-green-600" />;
     return <FaFileAlt className="text-primary-600" />;
+  };
+  const handleDelete = async (id) => {
+    await deleteFileById(id);
+    addToast("success", "File deleted");
   };
 
   if (!files.length) {
@@ -50,12 +56,20 @@ export default function FileList() {
             </div>
           </div>
 
-          <button
-            onClick={() => downloadFile(file._id)}
-            className="px-4 py-1 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition"
-          >
-            Download
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => downloadFile(file._id)}
+              className="px-4 py-1 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition"
+            >
+              Download
+            </button>
+            <button
+              onClick={() => handleDelete(file._id)}
+              className="text-red-600 text-sm hover:underline"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ))}
     </div>

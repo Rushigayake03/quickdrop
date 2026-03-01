@@ -106,3 +106,31 @@ export const getRoomFileHistory = async (roomId) => {
 
   return files;
 };
+
+export const deleteFileService = async (fileId) => {
+  const file = await File.findById(fileId);
+
+  if (!file) {
+    throw new Error("File not found");
+  }
+
+  const roomId = file.roomId;
+
+  await validateRoomExists(roomId);
+
+  const filePath = path.resolve("uploads", file.filename);
+
+  await fs.promises.unlink(filePath);
+
+  await File.findByIdAndDelete(fileId);
+
+  await redisClient.lRem(
+    `room:${roomId}:files`,
+    0,
+    JSON.stringify(file.toObject())
+  );
+
+  await redisClient.decrBy(`room:${roomId}:size`, file.size);
+
+  return { roomId, fileId };
+};

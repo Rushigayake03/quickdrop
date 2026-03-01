@@ -30,6 +30,12 @@ export const useSocket = (roomId) => {
       setStorage(sizeRes.sizeMB);
     });
 
+    socketRef.current.on("file-deleted", async (fileId) => {
+      setFiles((prev) => prev.filter((f) => f._id !== fileId));
+      const sizeRes = await getRoomSize(roomId);
+      setStorage(sizeRes.sizeMB);
+    });
+
     socketRef.current.on("error", (err) => {
       console.error(err.message);
     });

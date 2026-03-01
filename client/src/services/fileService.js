@@ -17,3 +17,8 @@ export const getRoomFiles = async (roomId) => {
 export const downloadFile = (fileId) => {
   window.open(`http://localhost:5000/api/files/download/${fileId}`, "_blank");
 };
+
+export const deleteFileById = async (fileId) => {
+  const { data } = await api.delete(`/files/${fileId}`);
+  return data;
+};
