@@ -5,7 +5,7 @@ import { getRoomSize } from "../services/roomService";
 
 export const useSocket = (roomId) => {
   const socketRef = useRef(null);
-  const { setFiles, addFile, setUserCount } = useRoomStore();
+  const { setFiles, addFile, setUserCount, setStorage } = useRoomStore();
 
   useEffect(() => {
     if (!roomId) return;

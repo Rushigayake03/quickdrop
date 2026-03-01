@@ -7,8 +7,13 @@ export default function FileList() {
 
   if (!files.length) {
     return (
-      <div className="bg-white p-6 rounded shadow text-center text-gray-500">
-        No files uploaded yet
+      <div className="bg-white p-10 rounded shadow border border-secondary-200 text-center">
+        <p className="text-primary-700 font-medium mb-2">
+          No files uploaded yet
+        </p>
+        <p className="text-secondary-400 text-sm">
+          Drag and drop files above to start sharing
+        </p>
       </div>
     );
   }

@@ -3,11 +3,13 @@ import Home from "./pages/Home";
 import Room from "./pages/Room";
 import NotFound from "./pages/NotFound";
 import { ToastProvider } from "./components/ui/Toast/ToastProvider";
+import Navbar from "./components/layout/Navbar";
 
 export default function App() {
   return (
     <ToastProvider>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/room/:roomId" element={<Room />} />

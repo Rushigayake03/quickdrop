@@ -1,23 +1,37 @@
 import { useRoomStore } from "../../store/roomStore";
+import { useToast } from "../ui/Toast/ToastProvider";
 
 const ROOM_LIMIT_MB = 100;
 
 export default function RoomHeader({ roomId }) {
   const { userCount, storageMB } = useRoomStore();
+  const { addToast } = useToast();
 
   const percentage = Math.min(
     (storageMB / ROOM_LIMIT_MB) * 100,
     100
   );
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(roomId);
+    addToast("success", "Room ID copied");
+  };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow border border-secondary-200 space-y-4">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-xl font-semibold text-primary-900">Room</h1>
-          <p className="text-sm text-secondary-400 break-all">
-            {roomId}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-secondary-400 break-all">
+              {roomId}
+            </p>
+            <button
+              onClick={handleCopy}
+              className="text-xs bg-secondary-200 text-primary-900 px-2 py-1 rounded hover:bg-secondary-300 transition"
+            >
+              Copy
+            </button>
+          </div>
         </div>
 
         <div className="text-right">

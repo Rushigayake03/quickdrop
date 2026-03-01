@@ -34,7 +34,7 @@ export default function Room() {
   useSocket(roomId);
 
   return (
-  <div className="min-h-screen p-8 bg-gray-50 space-y-6">
+  <div className="min-h-screen px-8 py-10 bg-secondary-100 space-y-8 max-w-4xl mx-auto">
     <RoomHeader roomId={roomId} />
     <FileDropzone />
     <FileList />
