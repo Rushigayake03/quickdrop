@@ -17,7 +17,7 @@ export default function RoomHeader({ roomId }) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow border border-secondary-200 space-y-4">
+    <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 border border-secondary-200 space-y-4">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-xl font-semibold text-primary-900">Room</h1>
@@ -50,7 +50,7 @@ export default function RoomHeader({ roomId }) {
 
         <div className="w-full bg-secondary-200 rounded h-3">
           <div
-            className="h-3 bg-primary-600 rounded transition-all duration-300"
+            className="h-3 bg-primary-600 rounded transition-all duration-500 ease-in-out"
             style={{ width: `${percentage}%` }}
           />
         </div>
