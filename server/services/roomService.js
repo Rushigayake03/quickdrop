@@ -70,3 +70,14 @@ export const validateRoomExists = async (roomId) => {
 
   return true;
 };
+export const getRoomSizeService = async (roomId) => {
+  await validateRoomExists(roomId);
+
+  const sizeBytes = await redisClient.get(`room:${roomId}:size`);
+
+  const sizeInBytes = Number(sizeBytes || 0);
+
+  const sizeInMB = sizeInBytes / (1024 * 1024);
+
+  return Number(sizeInMB.toFixed(2));
+};
