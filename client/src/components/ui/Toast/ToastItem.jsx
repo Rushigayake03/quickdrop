@@ -1,8 +1,8 @@
 const typeStyles = {
-  success: "bg-green-500",
-  error: "bg-red-500",
-  info: "bg-blue-500",
-  warning: "bg-yellow-500",
+  success: "bg-primary-600 text-white",
+  error: "bg-red-600 text-white",
+  info: "bg-secondary-500 text-white",
+  warning: "bg-yellow-500 text-black",
 };
 
 const ToastItem = ({ toast }) => {

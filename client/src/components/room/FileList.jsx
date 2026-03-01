@@ -14,22 +14,22 @@ export default function FileList() {
   }
 
   return (
-    <div className="bg-white p-6 rounded shadow space-y-3">
+    <div className="bg-white p-6 rounded shadow border border-secondary-200 space-y-3">
       {files.map((file) => (
         <div
           key={file._id}
           className="flex justify-between items-center border-b pb-2"
         >
           <div>
-            <p className="font-medium">{file.originalName}</p>
-            <p className="text-sm text-gray-500">
+            <p className="font-medium text-primary-900">{file.originalName}</p>
+            <p className="text-sm text-secondary-400">
               {formatBytes(file.size)}
             </p>
           </div>
 
           <button
             onClick={() => downloadFile(file._id)}
-            className="px-4 py-1 bg-blue-600 text-white text-sm rounded"
+            className="px-4 py-1 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition"
           >
             Download
           </button>

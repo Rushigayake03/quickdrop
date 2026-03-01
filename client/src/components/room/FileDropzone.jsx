@@ -28,10 +28,10 @@ const FileDropzone = () => {
   return (
     <div
       {...getRootProps()}
-      className="border-2 border-dashed border-gray-300 p-10 text-center rounded-lg bg-white cursor-pointer hover:bg-gray-100 transition"
+      className="border-2 border-dashed border-secondary-300 p-10 text-center rounded-lg bg-white cursor-pointer hover:bg-secondary-100 transition"
     >
       <input {...getInputProps()} />
-      <p>Drag & drop files here, or click to select</p>
+      <p className="text-primary-800">Drag & drop files here, or click to select</p>
     </div>
   );
 };
