@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { createRoom } from "../services/roomService";
 import { useToast } from "../components/ui/Toast/ToastProvider";
+import FeatureCard from "../components/ui/FeatureCard";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -20,11 +21,11 @@ export default function Home() {
     <div className="bg-secondary-100 min-h-screen">
       <section className="max-w-6xl mx-auto px-8 py-20 flex items-center justify-between gap-12">
         <div className="max-w-xl space-y-6">
-          <h1 className="text-5xl font-bold text-primary-900">
+          <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-tight text-primary-900">
             Secure Real-Time File Sharing
           </h1>
 
-          <p className="text-primary-700 text-lg">
+          <p className="text-primary-700 text-lg md:text-xl leading-relaxed font-medium">
             Instantly create rooms and share files with multiple devices.
             No login. No friction. Just seamless sharing.
           </p>
@@ -52,38 +53,31 @@ export default function Home() {
             <img
               src="/hero image.png"
               alt="Illustration"
-              className="w-[1000px] transform transition-transform duration-300 hover:scale-105"
+              className="w-full max-w-[500px] transition-transform duration-500 hover:scale-105"
             />
           </div>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-8 py-20 grid grid-cols-3 gap-8">
-        <div className="bg-white p-6 rounded shadow">
-          <h3 className="text-primary-900 font-semibold mb-2">
-            Real-Time Sync
-          </h3>
-          <p className="text-secondary-400">
-            Files instantly appear across all devices.
-          </p>
-        </div>
+      <section className="max-w-6xl mx-auto px-8 py-24">
+        <div className="grid md:grid-cols-3 gap-10">
+          <FeatureCard
+            title="Real-Time Sync"
+            description="Files instantly appear across all devices."
+            icon="/real-time-icon.svg"
+          />
 
-        <div className="bg-white p-6 rounded shadow">
-          <h3 className="text-primary-900 font-semibold mb-2">
-            100MB Room Storage
-          </h3>
-          <p className="text-secondary-400">
-            Automatic storage tracking and limit enforcement.
-          </p>
-        </div>
+          <FeatureCard
+            title="100MB Room Storage"
+            description="Automatic storage tracking and limit enforcement."
+            icon="/database-icon.svg"
+          />
 
-        <div className="bg-white p-6 rounded shadow">
-          <h3 className="text-primary-900 font-semibold mb-2">
-            Auto Expiring Rooms
-          </h3>
-          <p className="text-secondary-400">
-            Rooms expire automatically after 24 hours.
-          </p>
+          <FeatureCard
+            title="Auto Expiring Rooms"
+            description="Rooms expire automatically after 24 hours."
+            icon="/sand-clock-full-icon.svg"
+          />
         </div>
       </section>
     </div>
