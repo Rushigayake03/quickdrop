@@ -23,13 +23,14 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-/*
-=========================================
-MIDDLEWARE
-=========================================
-*/
+
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+  })
+);
 app.use(helmet());
 app.use(morgan("dev"));
 
@@ -55,10 +56,10 @@ app.get("/api/health", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST"]
   },
 });
-
 
 const pubClient = createClient({
   url: process.env.REDIS_URL,
@@ -89,7 +90,7 @@ const startServer = async () => {
 
     const PORT = process.env.PORT || 5000;
 
-    server.listen(PORT, () => {
+    server.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on port ${PORT}`);
     });
 

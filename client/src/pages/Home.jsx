@@ -40,6 +40,8 @@ export default function Home() {
 
             <a
               href="https://github.com/Rushigayake03/quickdrop"
+              target="_blank"
+              rel="noopener noreferrer"
               className="border border-primary-600 text-primary-600 px-4 py-3 rounded hover:bg-primary-600 hover:text-white transition flex items-center gap-2"
             >
               <img src="/github.svg" alt="GitHub" className="w-5 h-5" />

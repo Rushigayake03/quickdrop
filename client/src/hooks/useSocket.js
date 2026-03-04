@@ -10,7 +10,7 @@ export const useSocket = (roomId) => {
   useEffect(() => {
     if (!roomId) return;
 
-    socketRef.current = io("http://localhost:5000");
+    socketRef.current = io(import.meta.env.VITE_API_URL);
 
     socketRef.current.emit("join-room", { roomId });
 
