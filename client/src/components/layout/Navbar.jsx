@@ -20,9 +20,14 @@ export default function Navbar() {
     >
       <div
         onClick={() => navigate("/")}
-        className="text-xl font-semibold cursor-pointer tracking-wide"
+        className="flex items-center gap-3 text-xl font-semibold cursor-pointer tracking-wide"
       >
-        QuickDrop
+        <img
+          src="/quickdrop-without-text.png"
+          alt="QuickDrop logo"
+          className="h-9 w-9 object-contain"
+        />
+        <span>QuickDrop</span>
       </div>
 
       <div className="flex items-center gap-6">

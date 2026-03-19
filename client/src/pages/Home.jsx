@@ -21,6 +21,12 @@ export default function Home() {
     <div className="bg-secondary-100 min-h-screen">
       <section className="max-w-6xl mx-auto px-8 py-20 flex items-center justify-between gap-12">
         <div className="max-w-xl space-y-6">
+          <img
+            src="/quickdrop-without-text.png"
+            alt="QuickDrop logo"
+            className="h-16 w-16 object-contain"
+          />
+
           <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-tight text-primary-900">
             Secure Real-Time File Sharing
           </h1>
