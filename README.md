@@ -1,5 +1,15 @@
 <div align="center">
   <h1>QuickDrop</h1>
+  <p>
+    <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React badge" />
+    <img src="https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite badge" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS badge" />
+    <img src="https://img.shields.io/badge/Node.js-Backend-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js badge" />
+    <img src="https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express badge" />
+    <img src="https://img.shields.io/badge/Socket.IO-Real_Time-010101?style=for-the-badge&logo=socketdotio&logoColor=white" alt="Socket.IO badge" />
+    <img src="https://img.shields.io/badge/Redis-Cache_&_Rooms-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis badge" />
+    <img src="https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB badge" />
+  </p>
   <img src="./client/public/quickdrop-logo-with-text.png" alt="QuickDrop logo" width="220" />
   <p><strong>Secure real-time file sharing with temporary rooms, live sync, and zero sign-up friction.</strong></p>
 </div>
