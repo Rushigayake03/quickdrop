@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/Redis-Cache_&_Rooms-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis badge" />
     <img src="https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB badge" />
   </p>
-  <img src="./client/public/quickdrop-logo-with-text.png" alt="QuickDrop logo" width="220" />
+  <img src="./client/public/quickdrop-without-text.png" alt="QuickDrop logo" width="90" />
   <p><strong>Secure real-time file sharing with temporary rooms, live sync, and zero sign-up friction.</strong></p>
 </div>
 
